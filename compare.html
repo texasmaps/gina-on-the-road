@@ -14,7 +14,7 @@
 <body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap">
 <style>
-/* Layout: head-to-head tiles, one Texas map with both routes, monthly grouped bars, city lists. Gina in the Gina for Texas palette; Abbott in bright orange. Light by default, dark on toggle. */
+/* Layout: head-to-head tiles, one Texas map with both routes, monthly grouped bars, city lists. Gina in the Gina for Texas palette; Gina in brand sky blue edged in oxblood, Abbott in bright red. Light by default, dark on toggle. */
 :root{
   --paper:#FFFFFF;
   --ink:#1B1F27;
@@ -24,15 +24,15 @@
   --county-line:#C9B88F;
   --rule:#DED3BC;
   --card:#FFFFFF;
-  --gina:#A3262A;
-  --abbott:#FF7A00;
+  --gina:#DBF2FF; --gina-edge:#5E9BC8;
+  --abbott:#E8201B;
   --cream:#4A0404;
   --tan:#D2B48C;
   --maroon:#4A0404;
   --maroon-2:#7A1C1C;
   --olive:#6B8E23;
   --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --stopfill:#4A0404;
+  --stopfill:#DBF2FF;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -44,9 +44,9 @@ h1{font-size:clamp(30px,4.2vw,46px);line-height:1.02;margin:6px 0 8px;font-weigh
 .h2h{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px}
 @media (max-width:640px){.h2h{grid-template-columns:1fr}}
 .who{border-top:3px solid;padding:10px 2px 4px}
-.who.g{border-color:var(--gina)}.who.a{border-color:var(--abbott)}
+.who.g{border-color:var(--gina-edge)}.who.a{border-color:var(--abbott)}
 .who .name{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-.who.g .name{color:var(--gina)}.who.a .name{color:var(--abbott)}
+.who.g .name{color:var(--maroon)}.who.a .name{color:var(--abbott)}
 .who .src{font-size:11.5px;color:var(--ink-3);margin-top:2px}
 .rows{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
 @media (max-width:420px){.rows{grid-template-columns:1fr 1fr}}
@@ -62,25 +62,26 @@ h1{font-size:clamp(30px,4.2vw,46px);line-height:1.02;margin:6px 0 8px;font-weigh
 button:focus-visible{outline:2px solid var(--tan);outline-offset:2px}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{display:inline-block;width:22px;height:0;border-top:2.5px solid var(--gina)}
-.legend i.a{border-top:2.5px solid var(--abbott)}
-.legend b{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--stopfill)}
+.legend i{display:inline-block;width:22px;height:3px;background:var(--gina);border-top:1px solid var(--gina-edge);border-bottom:1px solid var(--gina-edge);box-sizing:content-box}
+.legend i.a{height:0;background:none;border:0;border-top:2.5px solid var(--abbott)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--stopfill);border:1.5px solid var(--gina-edge);box-sizing:border-box}
 .legend b.a{border-radius:2px;background:var(--abbott);transform:rotate(45deg);width:9px;height:9px}
 .mapbox{position:relative;background:var(--card);border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-top:8px}
 .mapbox svg{display:block;width:100%;height:auto}
 .county{fill:var(--county);stroke:var(--county-line);stroke-width:.5}
 .leg{fill:none;stroke-linecap:round}
-.leg.g{stroke:var(--gina);stroke-width:1.8;opacity:.75}
+.leg.g{stroke:var(--gina);stroke-width:2;opacity:1}
+.leg.edge{stroke:var(--gina-edge);stroke-width:3.4;opacity:.9}
 .leg.a{stroke:var(--abbott);stroke-width:2;opacity:.85}
 .leg.hit{stroke:transparent;stroke-width:12;opacity:1;cursor:pointer}
 .stop{cursor:pointer}
-.stop.g{fill:var(--stopfill);fill-opacity:.95;stroke:var(--paper);stroke-width:1.2}
+.stop.g{fill:var(--stopfill);fill-opacity:1;stroke:var(--gina-edge);stroke-width:1.4}
 .stop.a{fill:var(--abbott);stroke:var(--paper);stroke-width:1.2}
 .lbl{font-family:var(--sans);font-weight:500;font-size:10.5px;fill:var(--ink);paint-order:stroke;stroke:var(--county);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
 .lbl.minor{fill:var(--ink-2);font-size:9.5px}
 .tip{position:absolute;pointer-events:none;background:var(--cream);color:var(--maroon);font-size:12px;line-height:1.35;padding:7px 9px;border-radius:5px;max-width:260px;box-shadow:0 6px 18px rgba(0,0,0,.45);z-index:3}
 .tip b{font-weight:700}
-.tip .g{color:#8E1F22;font-weight:700}.tip .a{color:#B85400;font-weight:700}
+.tip .g{color:#8E1F22;font-weight:700}.tip .a{color:#B5120E;font-weight:700}
 .grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;margin-top:28px}
 @media (max-width:760px){.grid2{grid-template-columns:1fr}}
 h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
@@ -91,13 +92,13 @@ h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
 .cities h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin:12px 0 6px;color:var(--ink-2);font-weight:600}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{font-size:12px;padding:3px 8px;border-radius:4px;border:1px solid var(--rule);color:var(--ink)}
-.chip.g{border-color:var(--gina)}.chip.a{border-color:var(--abbott)}.chip.b{border-color:var(--tan);background:color-mix(in srgb,var(--tan) 12%,transparent)}
+.chip.g{border-color:var(--gina-edge);background:var(--gina)}.chip.a{border-color:var(--abbott)}.chip.b{border-color:var(--tan);background:color-mix(in srgb,var(--tan) 12%,transparent)}
 .method{margin-top:30px;border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2);max-width:80ch}
 .method ul{padding-left:18px;margin:6px 0}
 .method li{margin:3px 0}
 .seg button[aria-pressed="true"]{background:var(--maroon);color:#FFF4C7}
 .tip{background:var(--maroon);color:#FFF4C7}
-.tip .g{color:#FFC9CB}.tip .a{color:#FFB866}
+.tip .g{color:#FFC9CB}.tip .a{color:#FFB3B0}
 .lbl{stroke:#FFFFFF}
 .m .v{color:var(--ink)}
 .chk{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--ink-2)}
@@ -176,10 +177,11 @@ function draw(){
   const vis=showLegs?legs.filter(l=>who==='both'||l.who===who):[];
   const sel=gLegs.selectAll('g.lg').data(vis,(d,i)=>d.who+i+d.frm+d.to);
   const ent=sel.enter().append('g').attr('class','lg');
-  ent.append('path').attr('class','leg hit'); ent.append('path').attr('class','leg vis');
+  ent.append('path').attr('class','leg hit'); ent.append('path').attr('class','leg edge'); ent.append('path').attr('class','leg vis');
   sel.exit().remove();
   const all=ent.merge(sel);
   all.select('path.vis').attr('d',line).attr('class',d=>'leg vis '+d.who);
+  all.select('path.edge').attr('d',line).style('display',d=>d.who==='g'?null:'none');
   all.select('path.hit').attr('d',line).on('mousemove',(e,d)=>showTip(e,`<span class="${d.who}">${d.who==='g'?'Gina':'Abbott'}</span> · ${fmtM(d.m)}<br>${d.frm} → ${d.to}<br>${n0(d.mi)} road mi`)).on('mouseleave',hideTip);
   // Abbott on top when both
   gLegs.selectAll('g.lg').sort((x,y)=>(x.who==='a')-(y.who==='a'));
@@ -217,11 +219,11 @@ document.getElementById('showlegs').onchange=e=>{showLegs=e.target.checked;draw(
   ax.selectAll('text.x').data(months).join('text').attr('class','x').attr('x',d=>x(d)+x.bandwidth()/2).attr('y',h-mb+16).attr('text-anchor','middle').text(d=>new Date(+d.slice(0,4),+d.slice(4,6)-1,1).toLocaleDateString('en-US',{month:'short'})+(d.slice(4,6)==='01'||d==='202511'?" '"+d.slice(2,4):''));
   const rows=months.flatMap((m,i)=>[{m,who:'g',v:G.monthly[i]},{m,who:'a',v:A.monthly[i]}]);
   const ctip=d3.select('.chart').style('position','relative').append('div').attr('class','tip').style('display','none');
-  s.selectAll('rect.b').data(rows).join('rect').attr('class','b').attr('x',d=>x(d.m)+x2(d.who)).attr('width',x2.bandwidth()).attr('y',d=>y(d.v)).attr('height',d=>y(0)-y(d.v)).attr('rx',2).attr('fill',d=>d.who==='g'?'var(--gina)':'var(--abbott)')
+  s.selectAll('rect.b').data(rows).join('rect').attr('class','b').attr('x',d=>x(d.m)+x2(d.who)).attr('width',x2.bandwidth()).attr('y',d=>y(d.v)).attr('height',d=>y(0)-y(d.v)).attr('rx',2).attr('fill',d=>d.who==='g'?'var(--gina)':'var(--abbott)').attr('stroke',d=>d.who==='g'?'var(--gina-edge)':'none').attr('stroke-width',1)
     .on('mousemove',(e,d)=>{const r=document.querySelector('.chart').getBoundingClientRect();ctip.style('display','block').html(`<b>${new Date(+d.m.slice(0,4),+d.m.slice(4,6)-1,1).toLocaleDateString('en-US',{month:'long',year:'numeric'})}</b><br><span class="${d.who}">${d.who==='g'?'Gina':'Abbott'}</span>: ${n0(d.v)} road mi in Texas`).style('left',Math.min(e.clientX-r.left+12,r.width-240)+'px').style('top',(e.clientY-r.top+12)+'px');}).on('mouseleave',()=>ctip.style('display','none'));
   s.append('text').attr('class','lbl').attr('x',ml).attr('y',mt-8).style('font-size','10px').text('miles');
   const lg=s.append('g').attr('transform',`translate(${w-mr-140},${mt-14})`);
-  [['Gina','var(--gina)'],['Abbott','var(--abbott)']].forEach((l,i)=>{lg.append('rect').attr('x',i*72).attr('y',0).attr('width',10).attr('height',10).attr('rx',2).attr('fill',l[1]);lg.append('text').attr('class','lbl').attr('x',i*72+14).attr('y',9).style('font-size','10.5px').text(l[0]);});
+  [['Gina','var(--gina)'],['Abbott','var(--abbott)']].forEach((l,i)=>{lg.append('rect').attr('x',i*72).attr('y',0).attr('width',10).attr('height',10).attr('rx',2).attr('fill',l[1]).attr('stroke',i===0?'var(--gina-edge)':'none');lg.append('text').attr('class','lbl').attr('x',i*72+14).attr('y',9).style('font-size','10.5px').text(l[0]);});
 })();
 
 /* ---- city lists ---- */

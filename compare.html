@@ -8,17 +8,17 @@
 <meta property="og:title" content="Gina vs. Abbott on the Road">
 <meta property="og:description" content="The same yardstick for both candidates for Texas governor: in-person campaign stops inside Texas since November 2025, chained and measured as road miles.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#17100F">
-<style>html,body{margin:0;background:#17100F}html[data-theme="light"],html[data-theme="light"] body{background:#FFFFFF}img{max-width:100%}[hidden]{display:none!important}</style>
+<meta name="theme-color" content="#FFFFFF">
+<style>html,body{margin:0;background:#FFFFFF}html:not([data-theme="light"]) body{background:#17100F}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap">
 <style>
-/* Layout: head-to-head tiles, one Texas map with both routes, monthly grouped bars, city lists. Gina for Texas dark palette; Abbott in a cool blue for contrast. */
+/* Layout: head-to-head tiles, one Texas map with both routes, monthly grouped bars, city lists. Gina in the Gina for Texas palette; Abbott in a sickly yellow-green. Light by default, dark on toggle. */
 :root{
   --paper:#17100F; --ink:#F5EEDC; --ink-2:#C9B99C; --ink-3:#8E8170;
   --county:#261B1C; --county-line:#5A4244; --rule:#3B2C2C; --card:#1E1516;
-  --gina:#E06A6E; --abbott:#5A8FE0; --cream:#FFF4C7; --tan:#D2B48C; --maroon:#4A0404; --maroon-2:#7A1C1C; --olive:#6B8E23;
+  --gina:#E06A6E; --abbott:#8C9C22; --cream:#FFF4C7; --tan:#D2B48C; --maroon:#4A0404; --maroon-2:#7A1C1C; --olive:#6B8E23;
   --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
   --stopfill:#FFF4C7;
   color-scheme:dark;
@@ -27,7 +27,7 @@
 :root[data-theme="light"]{
   --paper:#FFFFFF; --ink:#1B1F27; --ink-2:#4F4A44; --ink-3:#8A8376;
   --county:#FAF6EE; --county-line:#C9B88F; --rule:#DED3BC; --card:#FFFFFF;
-  --gina:#A3262A; --abbott:#2F62A8; --cream:#4A0404; --stopfill:#4A0404; --tan:#D2B48C; --maroon:#4A0404;
+  --gina:#A3262A; --abbott:#9CB030; --cream:#4A0404; --stopfill:#4A0404; --tan:#D2B48C; --maroon:#4A0404;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -75,7 +75,7 @@ button:focus-visible{outline:2px solid var(--tan);outline-offset:2px}
 .lbl.minor{fill:var(--ink-2);font-size:9.5px}
 .tip{position:absolute;pointer-events:none;background:var(--cream);color:var(--maroon);font-size:12px;line-height:1.35;padding:7px 9px;border-radius:5px;max-width:260px;box-shadow:0 6px 18px rgba(0,0,0,.45);z-index:3}
 .tip b{font-weight:700}
-.tip .g{color:#8E1F22;font-weight:700}.tip .a{color:#1F4E9A;font-weight:700}
+.tip .g{color:#8E1F22;font-weight:700}.tip .a{color:#5E6B10;font-weight:700}
 .grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;margin-top:28px}
 @media (max-width:760px){.grid2{grid-template-columns:1fr}}
 h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
@@ -92,7 +92,7 @@ h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
 .method li{margin:3px 0}
 :root[data-theme="light"] .seg button[aria-pressed="true"]{background:var(--maroon);color:#FFF4C7}
 :root[data-theme="light"] .tip{background:var(--maroon);color:#FFF4C7}
-:root[data-theme="light"] .tip .g{color:#FFC9CB}:root[data-theme="light"] .tip .a{color:#BFD6FF}
+:root[data-theme="light"] .tip .g{color:#FFC9CB}:root[data-theme="light"] .tip .a{color:#D9E68A}
 :root[data-theme="light"] .lbl{stroke:#FFFFFF}
 :root[data-theme="light"] .m .v{color:var(--ink)}
 .chk{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--ink-2)}
@@ -103,7 +103,7 @@ h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
   <div class="eyebrow">Texas governor's race · campaign travel · Nov 2025 – Oct 7, 2026</div>
   <h1>Gina vs. Abbott on the Road</h1>
   <p class="lede">The same yardstick for both candidates: in-person campaign stops inside Texas, chained in order, measured as road miles. Gina's stops come from her campaign calendar; Abbott's from his campaign's own press releases and local coverage. Hover any line or stop for the detail.</p>
-<p class="lede" style="margin-top:-12px"><a href="./" style="color:#D2B48C;font-weight:600">← Gina's full travel map</a></p>
+<p class="lede" style="margin-top:-12px"><a href="./" style="color:#4A0404;font-weight:600">← Gina's full travel map</a></p>
 
   <div class="h2h">
     <div class="who g"><div class="name">Gina Hinojosa</div><div class="src">Campaign calendar · every in-person stop</div>
@@ -199,7 +199,7 @@ function draw(){
 draw();
 document.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{who=b.dataset.who;document.querySelectorAll('[data-who]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));draw();});
 document.getElementById('showlegs').onchange=e=>{showLegs=e.target.checked;draw();};
-(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='light')root.setAttribute('data-theme','light');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='dark';try{t=localStorage.getItem('gotr-theme')||'dark'}catch(e){}apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);try{localStorage.setItem('gotr-theme',t)}catch(e){}};})();
+(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='light')root.setAttribute('data-theme','light');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='light';try{t=localStorage.getItem('gotr-theme')||'light'}catch(e){}apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);try{localStorage.setItem('gotr-theme',t)}catch(e){}};})();
 
 /* ---- monthly grouped bars ---- */
 (function(){

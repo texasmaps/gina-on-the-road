@@ -219,7 +219,7 @@ function draw(){
 draw();
 document.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{who=b.dataset.who;document.querySelectorAll('[data-who]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));draw();});
 document.getElementById('showlegs').onchange=e=>{showLegs=e.target.checked;draw();};
-(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='dark')root.setAttribute('data-theme','dark');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='light';try{t=localStorage.getItem('gotr-theme')||'light'}catch(e){}apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);try{localStorage.setItem('gotr-theme',t)}catch(e){}};})();
+(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='dark')root.setAttribute('data-theme','dark');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='light';apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);};})();
 
 /* ---- monthly grouped bars ---- */
 (function(){

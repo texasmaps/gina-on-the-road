@@ -9,7 +9,7 @@
 <meta property="og:description" content="The same yardstick for both candidates for Texas governor: in-person campaign stops inside Texas since November 2025, chained and measured as road miles.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#17100F">
-<style>html,body{margin:0;background:#17100F}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>html,body{margin:0;background:#17100F}html[data-theme="light"],html[data-theme="light"] body{background:#FFFFFF}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap">
@@ -20,7 +20,15 @@
   --county:#261B1C; --county-line:#5A4244; --rule:#3B2C2C; --card:#1E1516;
   --gina:#E06A6E; --abbott:#5A8FE0; --cream:#FFF4C7; --tan:#D2B48C; --maroon:#4A0404; --maroon-2:#7A1C1C; --olive:#6B8E23;
   --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --stopfill:#FFF4C7;
   color-scheme:dark;
+}
+
+:root[data-theme="light"]{
+  --paper:#FFFFFF; --ink:#1B1F27; --ink-2:#4F4A44; --ink-3:#8A8376;
+  --county:#FAF6EE; --county-line:#C9B88F; --rule:#DED3BC; --card:#FFFFFF;
+  --gina:#A3262A; --abbott:#2F62A8; --cream:#4A0404; --stopfill:#4A0404; --tan:#D2B48C; --maroon:#4A0404;
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45}
@@ -51,7 +59,7 @@ button:focus-visible{outline:2px solid var(--tan);outline-offset:2px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{display:inline-block;width:22px;height:0;border-top:2.5px solid var(--gina)}
 .legend i.a{border-top:2.5px solid var(--abbott)}
-.legend b{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--cream)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--stopfill)}
 .legend b.a{border-radius:2px;background:var(--abbott);transform:rotate(45deg);width:9px;height:9px}
 .mapbox{position:relative;background:var(--card);border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-top:8px}
 .mapbox svg{display:block;width:100%;height:auto}
@@ -61,7 +69,7 @@ button:focus-visible{outline:2px solid var(--tan);outline-offset:2px}
 .leg.a{stroke:var(--abbott);stroke-width:2;opacity:.85}
 .leg.hit{stroke:transparent;stroke-width:12;opacity:1;cursor:pointer}
 .stop{cursor:pointer}
-.stop.g{fill:var(--cream);fill-opacity:.95;stroke:var(--paper);stroke-width:1.2}
+.stop.g{fill:var(--stopfill);fill-opacity:.95;stroke:var(--paper);stroke-width:1.2}
 .stop.a{fill:var(--abbott);stroke:var(--paper);stroke-width:1.2}
 .lbl{font-family:var(--sans);font-weight:500;font-size:10.5px;fill:var(--ink);paint-order:stroke;stroke:var(--county);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
 .lbl.minor{fill:var(--ink-2);font-size:9.5px}
@@ -82,6 +90,13 @@ h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
 .method{margin-top:30px;border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2);max-width:80ch}
 .method ul{padding-left:18px;margin:6px 0}
 .method li{margin:3px 0}
+:root[data-theme="light"] .seg button[aria-pressed="true"]{background:var(--maroon);color:#FFF4C7}
+:root[data-theme="light"] .tip{background:var(--maroon);color:#FFF4C7}
+:root[data-theme="light"] .tip .g{color:#FFC9CB}:root[data-theme="light"] .tip .a{color:#BFD6FF}
+:root[data-theme="light"] .lbl{stroke:#FFFFFF}
+:root[data-theme="light"] .m .v{color:var(--ink)}
+.chk{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--ink-2)}
+.theme{font:inherit;font-size:12px;padding:5px 10px;border:1px solid var(--rule);border-radius:6px;background:transparent;color:var(--ink-2);cursor:pointer;margin-left:auto}
 </style>
 
 <div class="wrap">
@@ -100,7 +115,9 @@ h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
 
   <div class="controls">
     <div class="seg" role="group" aria-label="Show"><button data-who="both" aria-pressed="true">Both</button><button data-who="g" aria-pressed="false">Gina</button><button data-who="a" aria-pressed="false">Abbott</button></div>
+    <label class="chk"><input type="checkbox" id="showlegs" checked> Show legs</label>
     <div class="legend"><span><i></i> Gina leg</span><span><i class="a"></i> Abbott leg</span><span><b></b> Gina stop</span><span><b class="a"></b> Abbott stop</span></div>
+    <button class="theme" id="theme" type="button">Light</button>
   </div>
 
   <div class="mapbox" id="mapbox"><svg id="map" viewBox="0 0 1140 760" role="img" aria-label="Texas map with both candidates' campaign legs"></svg></div>
@@ -151,9 +168,9 @@ const hideTip=()=>tip.style('display','none');
 const fmtM=m=>new Date(+m.slice(0,4),+m.slice(4,6)-1,1).toLocaleDateString('en-US',{month:'short',year:'numeric'});
 const legs=[...G.legs.map(l=>({...l,who:'g'})),...A.legs.map(l=>({...l,who:'a'}))].filter(l=>C[l.frm]&&C[l.to]&&l.frm!==l.to);
 const line=l=>{const a=pt(l.frm),b=pt(l.to);return `M${a[0]},${a[1]} L${b[0]},${b[1]}`};
-let who='both';
+let who='both', showLegs=true;
 function draw(){
-  const vis=legs.filter(l=>who==='both'||l.who===who);
+  const vis=showLegs?legs.filter(l=>who==='both'||l.who===who):[];
   const sel=gLegs.selectAll('g.lg').data(vis,(d,i)=>d.who+i+d.frm+d.to);
   const ent=sel.enter().append('g').attr('class','lg');
   ent.append('path').attr('class','leg hit'); ent.append('path').attr('class','leg vis');
@@ -163,28 +180,26 @@ function draw(){
   all.select('path.hit').attr('d',line).on('mousemove',(e,d)=>showTip(e,`<span class="${d.who}">${d.who==='g'?'Gina':'Abbott'}</span> · ${fmtM(d.m)}<br>${d.frm} → ${d.to}<br>${n0(d.mi)} road mi`)).on('mouseleave',hideTip);
   // Abbott on top when both
   gLegs.selectAll('g.lg').sort((x,y)=>(x.who==='a')-(y.who==='a'));
-  const cities=Object.keys(C).filter(c=>(who!=='a'&&G.cityEvents[c])||(who!=='g'&&A.arr[c]));
+  const gC=who==='a'?[]:Object.keys(G.cityEvents).filter(c=>C[c]);
+  const aC=who==='g'?[]:Object.keys(A.arr).filter(c=>C[c]);
+  const cities=[...new Set([...gC,...aC])];
   const rG=d3.scaleSqrt().domain([1,d3.max(Object.values(G.cityEvents))]).range([2.8,13]);
-  const rA=d3.scaleSqrt().domain([1,d3.max(Object.values(A.arr))]).range([3.2,9]);
-  const st=gStops.selectAll('path.stop').data(cities,d=>d);
-  st.exit().remove();
-  st.enter().append('path').attr('class','stop').merge(st)
-    .attr('class',d=>'stop '+((who!=='g'&&A.arr[d]&&!(who!=='a'&&G.cityEvents[d]))?'a':'g'))
-    .attr('transform',d=>`translate(${pt(d)[0]},${pt(d)[1]})`)
-    .attr('d',d=>{
-      const isA=(who!=='g'&&A.arr[d]&&!(who!=='a'&&G.cityEvents[d]));
-      if(isA){const r=rA(A.arr[d]);return `M0,${-r} L${r},0 L0,${r} L${-r},0 Z`;}
-      const r=rG(G.cityEvents[d]||1); return d3.arc()({innerRadius:0,outerRadius:r,startAngle:0,endAngle:2*Math.PI});
-    })
-    .on('mousemove',(e,d)=>{const g=G.cityEvents[d],a=A.arr[d];showTip(e,`<b>${d}</b><br>${g?`<span class="g">Gina</span>: ${g} calendar event${g===1?'':'s'}`:'<span class="g">Gina</span>: no addressed stop'}<br>${a?`<span class="a">Abbott</span>: ${a} campaign stop${a===1?'':'s'}`:'<span class="a">Abbott</span>: no campaign stop'}`)}).on('mouseleave',hideTip);
-  // Abbott-only markers drawn above
-  gStops.selectAll('path.stop').sort((x,y)=>((A.arr[x]&&!G.cityEvents[x])?1:0)-((A.arr[y]&&!G.cityEvents[y])?1:0));
+  const rA=d3.scaleSqrt().domain([1,d3.max(Object.values(A.arr))]).range([3.2,8]);
+  const tipCity=(e,d)=>{const g=G.cityEvents[d],a=A.arr[d];showTip(e,`<b>${d}</b><br>${g?`<span class="g">Gina</span>: ${g} calendar event${g===1?'':'s'}`:'<span class="g">Gina</span>: no addressed stop'}<br>${a?`<span class="a">Abbott</span>: ${a} campaign stop${a===1?'':'s'}`:'<span class="a">Abbott</span>: no campaign stop'}`)};
+  const sg=gStops.selectAll('path.g').data(gC,d=>d); sg.exit().remove();
+  sg.enter().append('path').attr('class','stop g').merge(sg).attr('transform',d=>`translate(${pt(d)[0]},${pt(d)[1]})`)
+    .attr('d',d=>d3.arc()({innerRadius:0,outerRadius:rG(G.cityEvents[d]),startAngle:0,endAngle:2*Math.PI})).on('mousemove',tipCity).on('mouseleave',hideTip);
+  const sa=gStops.selectAll('path.a').data(aC,d=>d); sa.exit().remove();
+  sa.enter().append('path').attr('class','stop a').merge(sa).attr('transform',d=>`translate(${pt(d)[0]},${pt(d)[1]})`)
+    .attr('d',d=>{const r=rA(A.arr[d]);return `M0,${-r} L${r},0 L0,${r} L${-r},0 Z`;}).on('mousemove',tipCity).on('mouseleave',hideTip).raise();
   const LAB={Austin:[8,-8],Houston:[10,4],Dallas:[10,-4],'Fort Worth':[-10,14],'San Antonio':[10,10],'El Paso':[10,-6],McAllen:[10,-6],Brownsville:[10,8],'Corpus Christi':[10,4],Laredo:[-10,-6],Lubbock:[10,-6],Amarillo:[10,-6],Beaumont:[8,-8],Tyler:[8,-6],Nacogdoches:[8,4],Waco:[8,-6],Presidio:[8,10],Abilene:[8,-6],Andrews:[-8,-6],Temple:[8,-6],Longview:[8,-6],Kingsville:[8,8],Hemphill:[8,4],Nash:[8,-6],Gainesville:[8,-6],Conroe:[8,-6],Harlingen:[-10,10],'La Grange':[8,8]};
   const labs=cities.filter(c=>LAB[c]);
   gLbl.selectAll('text').data(labs,d=>d).join('text').attr('class',d=>'lbl'+((G.cityEvents[d]||0)+(A.arr[d]||0)<3?' minor':'')).attr('x',d=>pt(d)[0]+LAB[d][0]).attr('y',d=>pt(d)[1]+LAB[d][1]+3).attr('text-anchor',d=>LAB[d][0]<0?'end':'start').text(d=>d);
 }
 draw();
 document.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{who=b.dataset.who;document.querySelectorAll('[data-who]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));draw();});
+document.getElementById('showlegs').onchange=e=>{showLegs=e.target.checked;draw();};
+(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='light')root.setAttribute('data-theme','light');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='dark';try{t=localStorage.getItem('gotr-theme')||'dark'}catch(e){}apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);try{localStorage.setItem('gotr-theme',t)}catch(e){}};})();
 
 /* ---- monthly grouped bars ---- */
 (function(){

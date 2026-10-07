@@ -225,6 +225,7 @@ const usPts={type:'FeatureCollection',features:Object.values(C).map(([la,lo])=>(
 const projUS=d3.geoAlbersUsa().fitExtent([[16,16],[W-16,H-16]],US);
 const proj=()=>view==='tx'?projTX:projUS;
 const pt=c=>proj()([C[c][1],C[c][0]])||[-50,-50];
+const inTx=c=>{const la=C[c][0],lo=C[c][1];return lo>-107.5&&lo<-93&&la>25.5&&la<36.6&&!(lo<-103.05&&la>32.0);};
 
 function legPath(h){
   const a=pt(h.frm), b=pt(h.to);
@@ -253,7 +254,7 @@ const LABELS_TX={Austin:[8,-8],Houston:[10,4],Dallas:[10,-4],'Fort Worth':[-10,1
 const LABELS_US={Austin:[8,-8],Houston:[8,8],Dallas:[8,-6],'El Paso':[-8,12],Washington:[8,-6],'New York':[-8,12],Boston:[8,-6],Chicago:[8,-6],Denver:[8,-6],'Los Angeles':[8,12],'San Francisco':[8,-8],Phoenix:[8,10],'Santa Fe':[8,-6],'Palm Beach':[8,4],Edgartown:[8,4],McAllen:[8,8]};
 function drawStops(){
   const labels=view==='tx'?LABELS_TX:LABELS_US;
-  const list=cities.filter(c=>view==='us'||C[c][1]>-107.5&&C[c][1]<-93&&C[c][0]>25.5&&C[c][0]<36.6);
+  const list=cities.filter(c=>view==='us'||inTx(c));
   gStops.selectAll('circle').data(list,d=>d).join('circle').attr('class','stop')
     .attr('cx',d=>pt(d)[0]).attr('cy',d=>pt(d)[1]).attr('r',d=>(arrivals[d]?rScale(arrivals[d]):2.4)*(view==='us'?.8:1))
     .on('mousemove',(e,d)=>{
@@ -271,7 +272,7 @@ function visibleHops(){
     if(h.upcoming&&!showPlanned) return false;
     if(!h.upcoming&&h.i>=cursor) return false;
     if(mode!=='all'&&h.kind!==mode) return false;
-    if(view==='tx'){const inTx=c=>C[c][1]>-107.5&&C[c][1]<-93&&C[c][0]>25.5&&C[c][0]<36.6; if(!inTx(h.frm)||!inTx(h.to)) return false;}
+    if(view==='tx'){if(!inTx(h.frm)||!inTx(h.to)) return false;}
     return true;
   });
 }

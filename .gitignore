@@ -1,0 +1,7 @@
+key*.txt
+*.ics
+events.json
+route.json
+days.json
+Day by Day/
+.DS_Store

@@ -292,8 +292,10 @@ function drawLegs(){
   // odometer
   const sofar=pastHops.filter(h=>h.i<cursor);
   const last=sofar[sofar.length-1];
-  document.getElementById('odo-val').textContent=n0(tot(sofar,'miles'))+' mi';
-  document.getElementById('odo-lab').textContent=last?`Through ${fmtD(last.date)} · ${sofar.length} legs`:'Start';
+  const counted=sofar.filter(h=>(mode==='all'||h.kind===mode)&&(view!=='tx'||(inTx(h.frm)&&inTx(h.to))));
+  document.getElementById('odo-val').textContent=n0(tot(counted,'miles'))+' mi';
+  const what=(mode==='drive'?'drives':mode==='fly'?'flights':'legs')+(view==='tx'?' inside Texas':'');
+  document.getElementById('odo-lab').textContent=last?`Through ${fmtD(last.date)} · ${counted.length} ${what}`:'Start';
   document.getElementById('when').textContent=last?fmtDs(last.date):fmtDs(ROUTE.seq[0][0]);
   document.getElementById('hint').textContent=selMetro?`Showing legs touching ${selMetro} · click again to clear`:(view==='tx'?'Click a city to isolate its legs · out-of-state flights are on the National view':'Click a city to isolate its legs');
 }

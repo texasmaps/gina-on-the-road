@@ -9,29 +9,54 @@
 <meta property="og:description" content="Every mile Gina Hinojosa has traveled across Texas and the country on the campaign calendar since November 2025: miles, hours, travel days and nights away.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#FFFFFF">
-<style>html,body{margin:0;background:#FFFFFF}html:not([data-theme="light"]) body{background:#17100F}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>html,body{margin:0;background:#FFFFFF}html[data-theme="dark"],html[data-theme="dark"] body{background:#17100F}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: odometer header, control strip, one big map, then monthly chart + destination table side by side. Gina for Texas palette (maroon, olive, tan, cream) on a dark ground. */
 :root{
-  --paper:#17100F; --ink:#F5EEDC; --ink-2:#C9B99C; --ink-3:#8E8170;
-  --county:#261B1C; --county-line:#5A4244; --rule:#3B2C2C; --card:#1E1516;
-  --drive:#E06A6E; --fly:#FFF4C7; --other:#8DB33A; --planned:#7E7064;
-  --accent:#D2B48C; --sky:#DBF2FF; --sky-2:#A9CFE6; --maroon:#4A0404; --maroon-2:#7A1C1C; --olive:#6B8E23; --cream:#FFF4C7;
+  --paper:#FFFFFF;
+  --ink:#1B1F27;
+  --ink-2:#4F4A44;
+  --ink-3:#8A8376;
+  --county:#FAF6EE;
+  --county-line:#C9B88F;
+  --rule:#DED3BC;
+  --card:#FFFFFF;
+  --drive:#A3262A;
+  --fly:#5E7F1E;
+  --other:#8C6B3F;
+  --planned:#9A9388;
+  --accent:#4A0404;
+  --sky:#DBF2FF;
+  --sky-2:#A9CFE6;
+  --maroon:#4A0404;
+  --maroon-2:#7A1C1C;
+  --olive:#6B8E23;
+  --cream:#4A0404;
   --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --stopfill:#4A0404;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --paper:#17100F;
+  --ink:#F5EEDC;
+  --ink-2:#C9B99C;
+  --ink-3:#8E8170;
+  --county:#261B1C;
+  --county-line:#5A4244;
+  --rule:#3B2C2C;
+  --card:#1E1516;
+  --drive:#E06A6E;
+  --fly:#FFF4C7;
+  --other:#8DB33A;
+  --planned:#7E7064;
+  --accent:#D2B48C;
+  --cream:#FFF4C7;
   --stopfill:#FFF4C7;
   color-scheme:dark;
-}
-
-:root[data-theme="light"]{
-  --paper:#FFFFFF; --ink:#1B1F27; --ink-2:#4F4A44; --ink-3:#8A8376;
-  --county:#FAF6EE; --county-line:#C9B88F; --rule:#DED3BC; --card:#FFFFFF;
-  --drive:#A3262A; --fly:#5E7F1E; --other:#8C6B3F; --planned:#9A9388;
-  --accent:#4A0404; --cream:#4A0404; --stopfill:#4A0404; --maroon:#4A0404; --maroon-2:#7A1C1C;
-  color-scheme:light;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45}
@@ -88,11 +113,11 @@ h1{font-size:clamp(30px,4.2vw,46px);line-height:1.02;margin:6px 0 8px;font-weigh
 .grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;margin-top:28px}
 @media (max-width:760px){.grid2{grid-template-columns:1fr}.stat.big{grid-column:span 2}}
 h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
-:root[data-theme="light"] .seg button[aria-pressed="true"]{background:var(--maroon);color:#FFF4C7}
-:root[data-theme="light"] .player button{background:var(--maroon);border-color:var(--maroon);color:#FFF4C7}
-:root[data-theme="light"] .tip{background:var(--maroon);color:#FFF4C7}
-:root[data-theme="light"] .leg.fly{opacity:.9}
-:root[data-theme="light"] .lbl{stroke:#FFFFFF}
+:root:not([data-theme="dark"]) .seg button[aria-pressed="true"]{background:var(--maroon);color:#FFF4C7}
+:root:not([data-theme="dark"]) .player button{background:var(--maroon);border-color:var(--maroon);color:#FFF4C7}
+:root:not([data-theme="dark"]) .tip{background:var(--maroon);color:#FFF4C7}
+:root:not([data-theme="dark"]) .leg.fly{opacity:.9}
+:root:not([data-theme="dark"]) .lbl{stroke:#FFFFFF}
 .theme{font:inherit;font-size:12px;padding:5px 10px;border:1px solid var(--rule);border-radius:6px;background:transparent;color:var(--ink-2);cursor:pointer;margin-left:auto}
 .note{font-size:13px;color:var(--ink-2);margin:0 0 10px}
 .chart svg{width:100%;height:auto;display:block}
@@ -300,7 +325,7 @@ function setPressed(on,off){document.getElementById(on).setAttribute('aria-press
 document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));drawLegs();});
 document.getElementById('planned').onchange=e=>{showPlanned=e.target.checked;drawLegs();};
 document.getElementById('showlegs').onchange=e=>{showLegs=e.target.checked;drawLegs();};
-(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='light')root.setAttribute('data-theme','light');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='light';try{t=localStorage.getItem('gotr-theme')||'light'}catch(e){}apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);try{localStorage.setItem('gotr-theme',t)}catch(e){}};})();
+(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='dark')root.setAttribute('data-theme','dark');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='light';try{t=localStorage.getItem('gotr-theme')||'light'}catch(e){}apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);try{localStorage.setItem('gotr-theme',t)}catch(e){}};})();
 const scrub=document.getElementById('scrub'); scrub.max=nPast; scrub.value=nPast;
 scrub.oninput=()=>{cursor=+scrub.value;stopPlay();drawLegs();};
 let raf=null, acc=0;

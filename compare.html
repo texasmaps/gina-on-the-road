@@ -9,26 +9,46 @@
 <meta property="og:description" content="The same yardstick for both candidates for Texas governor: in-person campaign stops inside Texas since November 2025, chained and measured as road miles.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#FFFFFF">
-<style>html,body{margin:0;background:#FFFFFF}html:not([data-theme="light"]) body{background:#17100F}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>html,body{margin:0;background:#FFFFFF}html[data-theme="dark"],html[data-theme="dark"] body{background:#17100F}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: head-to-head tiles, one Texas map with both routes, monthly grouped bars, city lists. Gina in the Gina for Texas palette; Abbott in a sickly yellow-green. Light by default, dark on toggle. */
 :root{
-  --paper:#17100F; --ink:#F5EEDC; --ink-2:#C9B99C; --ink-3:#8E8170;
-  --county:#261B1C; --county-line:#5A4244; --rule:#3B2C2C; --card:#1E1516;
-  --gina:#E06A6E; --abbott:#8C9C22; --cream:#FFF4C7; --tan:#D2B48C; --maroon:#4A0404; --maroon-2:#7A1C1C; --olive:#6B8E23;
+  --paper:#FFFFFF;
+  --ink:#1B1F27;
+  --ink-2:#4F4A44;
+  --ink-3:#8A8376;
+  --county:#FAF6EE;
+  --county-line:#C9B88F;
+  --rule:#DED3BC;
+  --card:#FFFFFF;
+  --gina:#A3262A;
+  --abbott:#9CB030;
+  --cream:#4A0404;
+  --tan:#D2B48C;
+  --maroon:#4A0404;
+  --maroon-2:#7A1C1C;
+  --olive:#6B8E23;
   --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --stopfill:#4A0404;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --paper:#17100F;
+  --ink:#F5EEDC;
+  --ink-2:#C9B99C;
+  --ink-3:#8E8170;
+  --county:#261B1C;
+  --county-line:#5A4244;
+  --rule:#3B2C2C;
+  --card:#1E1516;
+  --gina:#E06A6E;
+  --abbott:#8C9C22;
+  --cream:#FFF4C7;
   --stopfill:#FFF4C7;
   color-scheme:dark;
-}
-
-:root[data-theme="light"]{
-  --paper:#FFFFFF; --ink:#1B1F27; --ink-2:#4F4A44; --ink-3:#8A8376;
-  --county:#FAF6EE; --county-line:#C9B88F; --rule:#DED3BC; --card:#FFFFFF;
-  --gina:#A3262A; --abbott:#9CB030; --cream:#4A0404; --stopfill:#4A0404; --tan:#D2B48C; --maroon:#4A0404;
-  color-scheme:light;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45}
@@ -90,11 +110,11 @@ h2{font-size:17px;margin:0 0 4px;color:var(--cream)}
 .method{margin-top:30px;border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2);max-width:80ch}
 .method ul{padding-left:18px;margin:6px 0}
 .method li{margin:3px 0}
-:root[data-theme="light"] .seg button[aria-pressed="true"]{background:var(--maroon);color:#FFF4C7}
-:root[data-theme="light"] .tip{background:var(--maroon);color:#FFF4C7}
-:root[data-theme="light"] .tip .g{color:#FFC9CB}:root[data-theme="light"] .tip .a{color:#D9E68A}
-:root[data-theme="light"] .lbl{stroke:#FFFFFF}
-:root[data-theme="light"] .m .v{color:var(--ink)}
+:root:not([data-theme="dark"]) .seg button[aria-pressed="true"]{background:var(--maroon);color:#FFF4C7}
+:root:not([data-theme="dark"]) .tip{background:var(--maroon);color:#FFF4C7}
+:root:not([data-theme="dark"]) .tip .g{color:#FFC9CB}:root:not([data-theme="dark"]) .tip .a{color:#D9E68A}
+:root:not([data-theme="dark"]) .lbl{stroke:#FFFFFF}
+:root:not([data-theme="dark"]) .m .v{color:var(--ink)}
 .chk{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--ink-2)}
 .theme{font:inherit;font-size:12px;padding:5px 10px;border:1px solid var(--rule);border-radius:6px;background:transparent;color:var(--ink-2);cursor:pointer;margin-left:auto}
 </style>
@@ -199,7 +219,7 @@ function draw(){
 draw();
 document.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{who=b.dataset.who;document.querySelectorAll('[data-who]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));draw();});
 document.getElementById('showlegs').onchange=e=>{showLegs=e.target.checked;draw();};
-(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='light')root.setAttribute('data-theme','light');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='light';try{t=localStorage.getItem('gotr-theme')||'light'}catch(e){}apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);try{localStorage.setItem('gotr-theme',t)}catch(e){}};})();
+(function(){const b=document.getElementById('theme');const root=document.documentElement;function apply(t){if(t==='dark')root.setAttribute('data-theme','dark');else root.removeAttribute('data-theme');b.textContent=t==='light'?'Dark':'Light';}let t='light';try{t=localStorage.getItem('gotr-theme')||'light'}catch(e){}apply(t);b.onclick=()=>{t=t==='light'?'dark':'light';apply(t);try{localStorage.setItem('gotr-theme',t)}catch(e){}};})();
 
 /* ---- monthly grouped bars ---- */
 (function(){
